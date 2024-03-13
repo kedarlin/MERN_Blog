@@ -1,8 +1,10 @@
 import express from "express";
-import { json } from "body-parser";
-import { connect, connection } from "mongoose";
+import bodyParser from "body-parser";
+const { json } = bodyParser;
+import mongoose from "mongoose";
+const { connect, connection } = mongoose;
 import { config } from "dotenv";
-import productRoutes from "./routes/productRoutes";
+import productRoutes from "./routes/productRoutes.js";
 
 config();
 const app = express();
