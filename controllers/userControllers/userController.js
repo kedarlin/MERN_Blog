@@ -10,11 +10,32 @@ export async function getAllUsers(req, res) {
 }
 
 export async function createUser(req, res) {
-    console.log(req.body);
   try {
     const newUser = new User(req.body);
+    console.log(newUser);
+    console.log(json(newUser))
     await newUser.save();
     res.status(201).json(newUser);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export async function updateUser(req, res) {
+  try {
+    const { id } = req.params;
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+
+export async function deleteUser(req, res) {
+  try {
+    const { id } = req.params;
+    await User.findByIdAndDelete(id);
+    res.status(204).end();
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
