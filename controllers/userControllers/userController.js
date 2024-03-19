@@ -12,8 +12,6 @@ export async function getAllUsers(req, res) {
 export async function createUser(req, res) {
   try {
     const newUser = new User(req.body);
-    console.log(newUser);
-    console.log(json(newUser))
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
