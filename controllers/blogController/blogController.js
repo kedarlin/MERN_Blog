@@ -27,5 +27,22 @@ export async function updateBlogPosts(req,res)  {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
+
+export async function deleteBlogPosts(req,res) {
+  const idBlog = req.params.id;
+  try {
+    const deletedBlog = await BlogPost.findByIdAndDelete(idBlog);
+    
+    if (deletedBlog) {
+      res.json({ message: "Blog deleted successfully" });
+    } else {
+      res.status(404).json({ message: "blog not found." });
+    }
+  } catch (error) {
+    console.error("Error deleting article:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 
