@@ -20,19 +20,12 @@ export async function getAllBlogPosts(req, res) {
 }
 
 export async function updateBlogPosts(req,res)  {
-  const BlogPostid =  req.params.blogs;
-  const updateData = req.body; 
   try {
-    const updatedBlogPost = await BlogPost.findByIdAndUpdate(BlogPostid, updateData, { new: true });
-    
-    if (updatedBlogPost) {
-      res.json(updatedBlogPost);
-    } else {
-      res.status(404).json({ message: "updation not found. "});
-    }
+    const { id } = req.params;
+    const updatedBlogPost = await BlogPost.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(updatedBlogPost);
   } catch (error) {
-    console.error("Error updating blog:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ error: error.message });
   }
 };
 

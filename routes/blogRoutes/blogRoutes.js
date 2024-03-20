@@ -5,6 +5,6 @@ const router = Router();
 
 router.post('/blogs', createBlogPost);
 router.get('/blogs', getAllBlogPosts);
-router.put('/blogs', updateBlogPosts);
+router.put('/blogs/:id', updateBlogPosts);
 
 export default router;
