@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.put('/Update/:userId',verifyToken, updateBlog);
 router.delete('/Delete/:userId', verifyToken, deleteBlog);
-router.put('/logout',logout);
+router.post('/logout',logout);
 router.get('/getBlogs', verifyToken, getBlogs);
 router.get('/:userId',getBlog);
 
