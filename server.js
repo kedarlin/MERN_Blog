@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { json } from 'express';
 import userRoutes from './routes/userRoutes/user.route.js';
-import blogRoutes from './routes/blogRoutes/blogRoutes.js';
+import blogRoutes from './routes/blogRoutes/blog.route.js';
 import authRoutes from './routes/auth.route.js';
 import connect from './connection.js';
 import cookieParser from 'cookie-parser';

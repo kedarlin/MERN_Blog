@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
-import BlogPost from '../models/newBlog.js';
+import BlogPost from '../models/blog.model.js';
 
 export const updateBlog = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {

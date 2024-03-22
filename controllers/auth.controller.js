@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
-import BlogPost from '../models/newBlog.js';
+import BlogPost from '../models/blog.model.js';
 
 import { errorHandler } from '../utils/error.js'
 

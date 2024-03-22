@@ -1,5 +1,5 @@
 import express from "express";
-import  { deleteBlog, getBlogs, getBlog, logout, updateBlog } from '../../controllers/blogController.js';
+import  { deleteBlog, getBlogs, getBlog, logout, updateBlog } from '../../controllers/blog.controller.js';
 import { verifyToken } from '../../utils/verifyUser.js';
 
 const router = express.Router();
