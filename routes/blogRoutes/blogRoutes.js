@@ -1,11 +1,13 @@
-import { Router } from 'express';
-import { createBlogPost, deleteBlogPosts, getAllBlogPosts, updateBlogPosts } from '../../controllers/blogController/blogController.js';
+import express from "express";
+import  { deleteBlog, getBlogs, getBlog, logout, updateBlog } from '../../controllers/blogController.js';
+import { verifyToken } from '../../utils/verifyUser.js';
 
-const router = Router();
+const router = express.Router();
 
-router.post('/blogs', createBlogPost);
-router.get('/blogs', getAllBlogPosts);
-router.put('/blogs/:id', updateBlogPosts);
-router.delete('/blogs/:id',deleteBlogPosts);
+router.put('/Update/:userId',verifyToken, updateBlog);
+router.delete('/Delete/:userId', verifyToken, deleteBlog);
+router.put('/logout',logout);
+router.get('/getBlogs', verifyToken, getBlogs);
+router.get('/:userId',getBlog);
 
 export default router;

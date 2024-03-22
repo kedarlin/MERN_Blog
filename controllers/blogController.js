@@ -1,10 +1,10 @@
 import bcryptjs from 'bcryptjs';
-import { errorHandler } from '../../utils/error.js';
-import User from '../../models/user.model.js';
+import { errorHandler } from '../utils/error.js';
+import BlogPost from '../models/newBlog.js';
 
-export const updateUser = async (req, res, next) => {
+export const updateBlog = async (req, res, next) => {
   if (req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'Tou are not allowed to update this user'));
+    return next(errorHandler(403, 'you are not allowed to update this user'));
   }
   if (req.body.password) {
     if (req.body.password.length < 6) {
@@ -34,7 +34,7 @@ export const updateUser = async (req, res, next) => {
     }
   }
   try { 
-    const updatedUser = await User.findByIdAndDelete(
+    const updatedBlog = await BlogPost.findByIdAndDelete(
       req.params.userId,
       {
         $set : {
@@ -46,19 +46,19 @@ export const updateUser = async (req, res, next) => {
       },
       { new: true}
     );
-    const { password, ...rest } =updateUSer._doc;
+    const { password, ...rest } =updateBlog._doc;
     res.status(200).json(rest);
   } catch(error) {
     next(error);
   }
 };
 
-export const deleteUser = async (req,res,next) => {
+export const deleteBlog = async (req,res,next) => {
   if(!req.user.isAdmin && req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to delete this user'));
   }
   try {
-    await User.findByIdAndDelete(req.params.userId);
+    await BlogPost.findByIdAndDelete(req.params.userId);
     res.status(200)
     .json('User has been deleted');
   } catch(error) {
@@ -66,7 +66,7 @@ export const deleteUser = async (req,res,next) => {
   }
 };
 
-export const signout = (req,res,next) => {
+export const logout = (req,res,next) => {
   try {
     res.clearCookie('acces_token')
     .status(200)
@@ -76,7 +76,7 @@ export const signout = (req,res,next) => {
   }
 };
 
-export const getUsers = async(req,res,next) => {
+export const getBlogs = async(req,res,next) => {
   if(!req.user.isAdmin) {
     return next(errorHandler(403, 'You are not allowed to see all users'));
   }
@@ -85,17 +85,17 @@ export const getUsers = async(req,res,next) => {
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.sort === 'asc' ? 1 :-1;
 
-    const users = await User.find()
+    const blogs = await BlogPost.find()
     .sort({createdAt: sortDirection})
     .skip(startIndex)
     .limit(limit);
 
-    const userWithoutPassword = users.map((user) => {
+    const UserWithoutPassword = blogs.map((user) => {
       const { password, ...rest } = user._doc;
       return rest;
     });
 
-    const totalUsers = awwait = await User.countDocuments();
+    const totalBlogs = await BlogPost.countDocuments();
 
     const now = new Date();
     const oneMonthAgo = new Date(
@@ -103,16 +103,16 @@ export const getUsers = async(req,res,next) => {
       now.getMonth() - 1,
       now.getDate()
     );
-    const lastMonthUsers = await User.countDocuments({
+    const lastMonthBlogs = await BlogPost.countDocuments({
       createdAt : { $gte : oneMonthAgo },
     });
 
     res
       .status(200)
       .json({
-        users: usersWithoutPassword,
-        totalUsers,
-        lastMonthUsers,
+        users: UserWithoutPassword,
+        totalBlogs,
+        lastMonthBlogs,
       });
 
   } catch(error) {
@@ -120,11 +120,11 @@ export const getUsers = async(req,res,next) => {
   }
 };
 
-export const getUser = async (req,res,next) => {
+export const getBlog = async (req,res,next) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await BlogPost.findById(req.params.userId);
     if(!user) {
-      return next(errorHandler(404, 'User not found'));
+      return next(errorHandler(404, 'Blog not found'));
     }
     const { password, ...rest } = user._doc;
     res.status(200).json(rest);

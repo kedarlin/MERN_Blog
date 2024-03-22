@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { json } from 'express';
 import userRoutes from './routes/userRoutes/user.route.js';
-import authRoutes from './routes/userRoutes/auth.route.js';
 import blogRoutes from './routes/blogRoutes/blogRoutes.js';
+import authRoutes from './routes/auth.route.js';
 import connect from './connection.js';
 import cookieParser from 'cookie-parser';
 // Load environment variables from .env file
@@ -19,7 +19,7 @@ app.use(cookieParser());
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth',authRoutes);
-app.use('/api', blogRoutes);
+app.use('/api/blog', blogRoutes);
 
 // Start the server
 app.listen(PORT, () => {
