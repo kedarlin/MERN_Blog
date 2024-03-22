@@ -1,4 +1,4 @@
-import Post from '../models/post.model.js';
+import BlogPosts from '../models/blog.model.js';
 import { errorHandler } from '../utils/error.js';
 
 export const create = async (req, res, next) => {
@@ -26,12 +26,12 @@ export const create = async (req, res, next) => {
   }
 };
 
-export const getposts = async (req, res, next) => {
+export const getBlog = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
-    const posts = await Post.find({
+    const posts = await BlogPosts.find({
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.slug && { slug: req.query.slug }),
@@ -47,7 +47,7 @@ export const getposts = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-    const totalPosts = await Post.countDocuments();
+    const totalPosts = await BlogPosts.countDocuments();
 
     const now = new Date();
 
@@ -57,7 +57,7 @@ export const getposts = async (req, res, next) => {
       now.getDate()
     );
 
-    const lastMonthPosts = await Post.countDocuments({
+    const lastMonthPosts = await BlogPosts.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
 
@@ -71,24 +71,24 @@ export const getposts = async (req, res, next) => {
   }
 };
 
-export const deletepost = async (req, res, next) => {
+export const deleteBlog = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to delete this post'));
   }
   try {
-    await Post.findByIdAndDelete(req.params.postId);
+    await BlogPosts.findByIdAndDelete(req.params.postId);
     res.status(200).json('The post has been deleted');
   } catch (error) {
     next(error);
   }
 };
 
-export const updatepost = async (req, res, next) => {
+export const updateBlog = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to update this post'));
   }
   try {
-    const updatedPost = await Post.findByIdAndUpdate(
+    const updatedPost = await BlogPosts.findByIdAndUpdate(
       req.params.postId,
       {
         $set: {
