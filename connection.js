@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 export default async () => {
     try {
       console.log(process.env.MONGODB_URI);
