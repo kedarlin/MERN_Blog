@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
-<<<<<<< HEAD
 const blogSchema = new mongoose.Schema(
-=======
-const BlogSchema = new mongoose.Schema(
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
   {
     userId: {
       type: String,
@@ -37,12 +33,6 @@ const BlogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-<<<<<<< HEAD
 const Blog = mongoose.model('Blog', blogSchema);
 
 export default Blog;
-=======
-const BlogPosts = mongoose.model('BlogPosts', BlogSchema);
-
-export default BlogPosts;
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d

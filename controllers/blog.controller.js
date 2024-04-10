@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import Blog from '../models/blog.model.js';
-=======
-import BlogPosts from '../models/blog.model.js';
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
 import { errorHandler } from '../utils/error.js';
 
 export const create = async (req, res, next) => {
@@ -30,20 +26,12 @@ export const create = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 export const getblogs = async (req, res, next) => {
-=======
-export const getBlog = async (req, res, next) => {
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
-<<<<<<< HEAD
     const blogs = await Blog.find({
-=======
-    const posts = await BlogPosts.find({
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
       ...(req.query.userId && { userId: req.query.userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.slug && { slug: req.query.slug }),
@@ -59,11 +47,7 @@ export const getBlog = async (req, res, next) => {
       .skip(startIndex)
       .limit(limit);
 
-<<<<<<< HEAD
     const totalBlogs = await Blog.countDocuments();
-=======
-    const totalPosts = await BlogPosts.countDocuments();
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
 
     const now = new Date();
 
@@ -73,11 +57,7 @@ export const getBlog = async (req, res, next) => {
       now.getDate()
     );
 
-<<<<<<< HEAD
     const lastMonthBlogs = await Blog.countDocuments({
-=======
-    const lastMonthPosts = await BlogPosts.countDocuments({
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
       createdAt: { $gte: oneMonthAgo },
     });
 
@@ -91,43 +71,25 @@ export const getBlog = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 export const deleteblog = async (req, res, next) => {
-=======
-export const deleteBlog = async (req, res, next) => {
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to delete this Blog'));
   }
   try {
-<<<<<<< HEAD
     await Blog.findByIdAndDelete(req.params.blogId);
     res.status(200).json('The blog has been deleted');
-=======
-    await BlogPosts.findByIdAndDelete(req.params.postId);
-    res.status(200).json('The post has been deleted');
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
   } catch (error) {
     next(error);
   }
 };
 
-<<<<<<< HEAD
 export const updateblog = async (req, res, next) => {
-=======
-export const updateBlog = async (req, res, next) => {
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to update this Blog'));
   }
   try {
-<<<<<<< HEAD
     const updatedBlog = await Blog.findByIdAndUpdate(
       req.params.blogId,
-=======
-    const updatedPost = await BlogPosts.findByIdAndUpdate(
-      req.params.postId,
->>>>>>> ac975e47784b29e9d4c9dfd1ebd9d0beeb47705d
       {
         $set: {
           title: req.body.title,
